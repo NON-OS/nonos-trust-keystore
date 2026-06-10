@@ -39,25 +39,23 @@ the kernel image via `src/security/nonos_trust_anchor/baked.rs`.
 
 ## Verified capsules
 
-Seven capsules ship with a committed NØNOS-ID cert + CapsuleManifest
-v3 under `capsules/`. The kernel verifier accepts them only when
-they decode and verify against the baked trust-anchor policy and
-when their manifest's `payload_hash` matches the embedded ELF.
+Every root-included `userland/*/Capsule.mk` entry ships with a
+committed NØNOS-ID cert, CapsuleManifest v3, and Groth16 capsule
+attestation trailer under `capsules/`. The current fleet contains
+57 capsules. The verifier accepts a capsule only when the cert
+decodes against the baked trust-anchor policy, the manifest verifies
+under the capsule publisher keys, the manifest `payload_hash` matches
+the ELF bytes, and the ZK trailer binds the capsule hash and exact
+capability mask.
 
-| Capsule              | Bin name              | Caps     |
-| -------------------- | --------------------- | -------- |
-| proof_io             | `proof_io`            | 0x18     |
-| ramfs                | `ramfs`               | 0x38     |
-| driver.virtio_rng    | `driver_virtio_rng`   | 0xF8018  |
-| driver.ps2_kbd0      | `driver_ps2_input`    | 0x158018 |
-| driver.virtio_blk0   | `driver_virtio_blk`   | 0xF8018  |
-| driver.virtio_net0   | `driver_virtio_net`   | 0xF8018  |
-| driver.xhci0         | `driver_xhci`         | 0xF8018  |
+Per-capsule identity (handle, namespace, endpoints, caps, publisher
+key paths, validity window) lives in each `userland/<capsule>/Capsule.mk`;
+the shared build, sign, manifest, and attestation rules live in
+`nonos-mk/capsule.mk`. The authoritative fleet list is produced by:
 
-Per-capsule identity (handle, namespace, endpoints, caps,
-publisher key paths, validity window) lives in each
-`userland/<capsule>/Capsule.mk`; the shared rules live in
-`nonos-mk/capsule.mk`.
+```
+make nonos-mk-verify-capsule-attest
+```
 
 ## Re-signing
 
