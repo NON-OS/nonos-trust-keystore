@@ -1,0 +1,12 @@
+{
+  "tool": "nonos-attestation-circuit",
+  "tool_version": "1.0.0",
+  "rustc_version": "rustc 1.94.0-nightly (22c74ba91 2026-01-15)",
+  "cargo_version": "cargo 1.94.0-nightly (6d1bd93c4 2026-01-10)",
+  "commit": "5f3e2193ba6f919e5f0e847a834d662882f3aaa2",
+  "seed": "nonos-production-attestation-v1-2026",
+  "vk_blake3": "f09c5cbc0619f37ef09e934d906333aaa1f0d50dd6c65d7f5bdf58c97901cb5c",
+  "public_inputs_expected": 7,
+  "canonical_vk_len": 728,
+  "generated_at_utc": "2026-06-07T16:27:30.614090+00:00"
+}
